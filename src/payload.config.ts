@@ -8,10 +8,22 @@ import { fileURLToPath } from 'url'
 import sharp from 'sharp'
 
 import { Users } from './collections/Users'
-import { Media } from './collections/Media'
+import { WorkExperiences } from './collections/WorkExperiences'
+import { Projects } from './collections/Projects'
+import { Images } from './collections/Images'
+import { Profile } from './globals/Profile'
+import { Education } from './globals/Education'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
+
+const { PAYLOAD_SECRET, DATABASE_URI } = process.env
+if (PAYLOAD_SECRET === undefined) {
+  throw new Error('process.env.PAYLOAD_SECRET is undefined')
+}
+if (DATABASE_URI === undefined) {
+  throw new Error('process.env.DATABASE_URI is undefined')
+}
 
 export default buildConfig({
   admin: {
@@ -20,15 +32,16 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media],
+  collections: [Users, WorkExperiences, Projects, Images],
+  globals: [Profile, Education],
   editor: lexicalEditor(),
-  secret: process.env.PAYLOAD_SECRET || '',
+  secret: PAYLOAD_SECRET,
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
   db: sqliteAdapter({
     client: {
-      url: process.env.DATABASE_URI || '',
+      url: DATABASE_URI,
     },
   }),
   sharp,
