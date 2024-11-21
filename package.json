@@ -18,6 +18,7 @@
   },
   "dependencies": {
     "@ark-ui/react": "^4.4.4",
+    "@icons-pack/react-simple-icons": "^10.1.0",
     "@payloadcms/db-sqlite": "latest",
     "@payloadcms/next": "latest",
     "@payloadcms/payload-cloud": "latest",
